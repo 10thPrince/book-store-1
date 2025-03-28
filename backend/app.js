@@ -15,13 +15,13 @@ app.use(express.json());
 //middleware for handling cors policy
 app.use(cors());
 //or for more controll
-app.use(
-    cors({
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        allowedHeaders: ['Content-Type']
-    })
-)
+// app.use(
+//     cors({
+//         origin: 'http://localhost:3000',
+//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//         allowedHeaders: ['Content-Type']
+//     })
+// )
 
 app.get('/', (req, res)=>{
     console.log(req);
