@@ -53,13 +53,16 @@ router.get('/:id', async (req, res) => {
 
         const book = await Book.findById(id);
 
+        if(!book){
+            return res.status(404).send({message: "Book Not Found"})
+        }
 
         res.status(200).send(book);
 
 
     } catch (error) {
         console.log(error.message);
-        res.status(404).send({ message: "Book not found. insert valid id" });
+        res.status(500).send({ message: "System eror occured", error: error.message });
     }
 
 })
@@ -85,8 +88,8 @@ router.put('/:id', async (req, res) => {
         const book = await Book.findByIdAndUpdate(id, newBook);
 
         if (!book) {
-            res.send(404).send("Book not found");
-        }
+            return res.status(404).send({suceess: false, message: "Book not found"});
+        } 
 
         res.status(201).json({ Success: true, Message: "Book updated successful", data: book })
     } catch (error) {
@@ -106,13 +109,13 @@ router.delete('/:id', async (req, res) => {
         const book = await Book.findByIdAndDelete(id);
 
         if (!book) {
-            res.send(404).send("Book not found");
+            return res.send(404).send("Book not found");
         }
 
         res.status(200).send("Book deleted successfully");
     } catch (error) {
         console.log(error.message);
-        res.status(500).send("System Error Occured");
+        res.status(500).send({message: error.message});
     }
 
 })
