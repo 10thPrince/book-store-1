@@ -33,7 +33,26 @@ const Home = () => {
                 <Spinner />
                 ) : (
                 
-                <table></table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th className=''>No.</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>PublishYear</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            books.map((book, index)=>{
+                                <td>
+                                    
+                                </td>
+                            })
+                        }
+                    </tbody>
+                </table>
                 )
             }
         </div>
