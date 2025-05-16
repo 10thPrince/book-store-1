@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { BsInfoCircle } from 'react-icons/bs'
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md'
+import ShowCard from '../components/home/ShowCard.jsx'
+import TableForm from '../components/home/TableForm.jsx'
+
 
 const Home = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
-
+    const [showType, setShowType] = useState('table');
     useEffect(() => {
         setLoading(true);
         axios.get('http://localhost:3000/books')
@@ -23,63 +26,33 @@ const Home = () => {
             })
     }, [])
     return (
-        <div>
-            <div className=''>
+        <div className='p-4'>
+            <div className='flex justify-center items-center gap-x-4'>
+                <button
+                    className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
+                    onClick={() => setShowType('table')}
+                >
+                    Table
+                </button>
+                <button
+                    className='bg-sky-300 hover:bg-sky-600 px-4 py-1 rounded-lg'
+                    onClick={() => setShowType('card')}
+                >
+                    Card
+                </button>
                 <h1>Books List</h1>
                 <Link to={'/books/create'}>
-                    <MdOutlineAddBox className='text-sky-600 text-4xl'/>
+                    <MdOutlineAddBox className='text-sky-600 text-4xl' />
                 </Link>
             </div>
             {
                 loading ? (
                     <Spinner />
-                ) : (
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th className=''>No.</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>PublishYear</th>
-                                <th>Operations</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                books.map((book, index) => (
-                                    <tr>
-                                        <td key={book._id}>
-                                            {index +1}
-                                        </td>
-                                        <td>
-                                            {book.title}
-                                        </td>
-                                        <td>
-                                            {book.author}
-                                        </td>
-                                        <td>
-                                            {book.publishYear}
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <Link to={`/books/details/${book._id}`}>
-                                                    <BsInfoCircle className='text-green-600 text-2xl'/>
-                                                </Link>
-                                                <Link to={`/books/edit/${book._id}`}>
-                                                    <AiOutlineEdit className='text-yellow-600 text-2xl'/>
-                                                </Link>
-                                                <Link to={`/books/delete/${book._id}`}>
-                                                    <MdOutlineDelete className='text-red-600 text-2xl'/>
-                                                </Link>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                )
+                ) : showType === 'table' ?
+                    (<TableForm books={books} />)
+                    :
+                    (<ShowCard books={books}/>)
+                
             }
         </div>
     )
