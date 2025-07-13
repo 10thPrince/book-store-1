@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import booksRoutes from './routes/bookRoutes.js';
+import userRoutes from './routes/userRoutes.js'
 import cors from 'cors';
 
 dotenv.config();
@@ -10,8 +11,10 @@ const port = process.env.PORT;
 const mongoDB = process.env.DB_URL;
 
 const app = express();
+
 //middleware for parsing json content
 app.use(express.json());
+
 //middleware for handling cors policy
 app.use(cors());
 //or for more controll
@@ -29,6 +32,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/books', booksRoutes);
+app.use('/users', userRoutes)
 
 
 
